@@ -1,0 +1,22 @@
+CREATE TABLE schools (
+    id SERIAL PRIMARY KEY,
+    fire INTEGER,
+    protection INTEGER,
+    ligth INTEGER,
+    detection INTEGER,
+    strengthening INTEGER,
+    metamorphism INTEGER,
+    bann INTEGER,
+    illusion INTEGER,
+    movement INTEGER,
+    wind INTEGER,
+    heal INTEGER,
+    death INTEGER,
+    fate INTEGER,
+    nature INTEGER,
+    control INTEGER,
+    fight INTEGER,
+    water INTEGER,
+    shadow INTEGER,
+    earth INTEGER
+);
