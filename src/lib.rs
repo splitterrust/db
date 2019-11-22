@@ -20,13 +20,14 @@ pub fn establish_connection() -> PgConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-use self::models::{Spell, NewSpell, Schools, NewSchools};
+use self::models::schools::{Schools, NewSchools};
+use self::models::spell::{Spell, NewSpell};
 
 pub fn write_new_schools<'a>(
     conn:          &PgConnection,
     fire:          Option<&'a i32>,
     protection:    Option<&'a i32>,
-    ligth:         Option<&'a i32>,
+    light:         Option<&'a i32>,
     detection:     Option<&'a i32>,
     strengthening: Option<&'a i32>,
     metamorphism:  Option<&'a i32>,
@@ -47,7 +48,7 @@ pub fn write_new_schools<'a>(
     use schema::schools;
 
     let new_schools = NewSchools {
-        fire, protection, ligth, detection, strengthening,
+        fire, protection, light, detection, strengthening,
         metamorphism, bann, illusion, movement, wind, heal,
         death, fate, nature, control, fight, water, shadow,
         earth
@@ -108,16 +109,21 @@ pub fn write_spell(spell: &NewSpell) -> Spell {
         .expect("Error saving new spell")
 }
 
-pub fn get_spell_by_name(_name: &str) -> Option<Spell> {
+pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Option<Schools>)> {
     use self::schema::spells::dsl::*;
+    use self::schema::schools;
+
     let conn = establish_connection();
+
     let results = spells.filter(name.eq(_name))
-          .limit(1)
-          .load::<Spell>(&conn)
-          .expect("Error finding spell with name");
+        .limit(1)
+        .left_join(schools::table)
+        .load::<(Spell, Option<Schools>)>(&conn)
+        .expect("Spell not found");
+
     match results.len() {
-        1 => Some(results[0].clone()),
-        _ => None
+        0 => None,
+        _ => Some(results[0].clone())
     }
 }
 

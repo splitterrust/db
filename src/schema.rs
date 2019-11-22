@@ -3,7 +3,7 @@ table! {
         id -> Int4,
         fire -> Nullable<Int4>,
         protection -> Nullable<Int4>,
-        ligth -> Nullable<Int4>,
+        light -> Nullable<Int4>,
         detection -> Nullable<Int4>,
         strengthening -> Nullable<Int4>,
         metamorphism -> Nullable<Int4>,

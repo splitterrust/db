@@ -2,7 +2,7 @@ CREATE TABLE schools (
     id SERIAL PRIMARY KEY,
     fire INTEGER,
     protection INTEGER,
-    ligth INTEGER,
+    light INTEGER,
     detection INTEGER,
     strengthening INTEGER,
     metamorphism INTEGER,

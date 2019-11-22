@@ -20,7 +20,7 @@ pub fn write_json_spells_to_db() {
         let new_school = NewSchools {
             fire:          spell.schools.fire.as_ref(),
             protection:    spell.schools.protection.as_ref(),
-            ligth:         spell.schools.light.as_ref(),
+            light:         spell.schools.light.as_ref(),
             detection:     spell.schools.detection.as_ref(),
             strengthening: spell.schools.strengthening.as_ref(),
             metamorphism:  spell.schools.metamorphism.as_ref(),
