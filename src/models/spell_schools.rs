@@ -103,8 +103,13 @@ impl SpellSchools {
         }
     }
 
-    pub fn to_string_pretty(self) -> String {
+    pub fn to_json_pretty(self) -> String {
         use serde_json::json;
         serde_json::to_string_pretty(&json!(self)).unwrap()
+    }
+
+    pub fn to_json(self) -> String {
+        use serde_json::json;
+        json!(self).to_string()
     }
 }
