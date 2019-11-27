@@ -1,5 +1,5 @@
-extern crate splitterrust_db;
 extern crate diesel;
+extern crate splitterrust_db;
 
 use self::splitterrust_db::*;
 
@@ -26,7 +26,7 @@ fn main() {
         Option::None,
         Option::None,
         Option::None,
-        Option::None
+        Option::None,
     );
     println!("Wrote school: {:?}", schools);
 
@@ -42,7 +42,7 @@ fn main() {
         "effect",
         "cast_duration",
         "cost",
-        &schools.id
+        &schools.id,
     );
     println!("Wrote spell: {:?}", spell);
 }

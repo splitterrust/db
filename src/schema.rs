@@ -27,14 +27,14 @@ table! {
     spells (id) {
         id -> Int4,
         name -> Varchar,
-        spell_duration -> Varchar,
+        cast_duration -> Varchar,
         options -> Array<Text>,
-        reach -> Varchar,
+        range -> Varchar,
         difficulty -> Varchar,
         typus -> Varchar,
         enforced -> Varchar,
         effect -> Text,
-        cast_duration -> Varchar,
+        duration_of_effect -> Varchar,
         cost -> Varchar,
         schools_id -> Int4,
     }
@@ -42,7 +42,4 @@ table! {
 
 joinable!(spells -> schools (schools_id));
 
-allow_tables_to_appear_in_same_query!(
-    schools,
-    spells,
-);
+allow_tables_to_appear_in_same_query!(schools, spells,);

@@ -1,9 +1,9 @@
-extern crate splitterrust_db;
 extern crate diesel;
+extern crate splitterrust_db;
 
-use self::splitterrust_db::*;
-use self::models::spell::Spell;
 use self::diesel::prelude::*;
+use self::models::spell::Spell;
+use self::splitterrust_db::*;
 
 fn main() {
     use splitterrust_db::schema::spells::dsl::*;

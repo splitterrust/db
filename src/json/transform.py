@@ -11,10 +11,13 @@ spells = []
 with open(FILENAME) as f:
     data = json.load(f)
     for k, v in data.items():
-        schulen = v['schulen']
-        for s, l in schulen.items():
+        v['Name'] = v['name']
+        del v['name']
+        schulen = {}
+        for s, l in v['schulen'].items():
             schulen[s] = int(l) if l else 1
-        v['schulen'] = schulen
+        del v['schulen']
+        v['Schulen'] = schulen
 
         spells.append(v)
 
