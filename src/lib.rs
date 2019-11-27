@@ -137,7 +137,7 @@ pub fn write_spell(spell: &NewSpell) -> Spell {
         .expect("Error saving new spell")
 }
 
-pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Option<Schools>)> {
+pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Schools)> {
     use self::schema::schools;
     use self::schema::spells::dsl::*;
 
@@ -146,8 +146,8 @@ pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Option<Schools>)> {
     let results = spells
         .filter(name.eq(_name))
         .limit(1)
-        .left_join(schools::table)
-        .load::<(Spell, Option<Schools>)>(&conn)
+        .inner_join(schools::table)
+        .load::<(Spell, Schools)>(&conn)
         .expect("Error retrieving spell");
 
     match results.len() {
@@ -156,7 +156,7 @@ pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Option<Schools>)> {
     }
 }
 
-pub fn get_spell_like_name(_name: &str) -> Vec<(Spell, Option<Schools>)> {
+pub fn get_spell_like_name(_name: &str) -> Vec<(Spell, Schools)> {
     use self::schema::schools;
     use self::schema::spells::dsl::*;
 
@@ -165,8 +165,8 @@ pub fn get_spell_like_name(_name: &str) -> Vec<(Spell, Option<Schools>)> {
     let query = format!("{}", _name);
     spells
         .filter(name.ilike(query))
-        .left_join(schools::table)
-        .load::<(Spell, Option<Schools>)>(&conn)
+        .inner_join(schools::table)
+        .load::<(Spell, Schools)>(&conn)
         .expect("Error finding spell like")
 }
 
