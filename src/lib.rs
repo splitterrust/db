@@ -82,14 +82,14 @@ pub fn write_new_schools<'a>(
 pub fn write_new_spell<'a>(
     conn: &PgConnection,
     name: &'a str,
-    duration_of_effect: &'a str,
+    cast_duration: &'a str,
     options: &'a Vec<String>,
     range: &'a str,
     difficulty: &'a str,
     typus: &'a str,
     enforced: &'a str,
     effect: &'a str,
-    cast_duration: &'a str,
+    duration_of_effect: &'a str,
     cost: &'a str,
     schools_id: &'a i32,
 ) -> Spell {
@@ -97,14 +97,14 @@ pub fn write_new_spell<'a>(
 
     let new_spell = NewSpell {
         name,
-        duration_of_effect,
+        cast_duration,
         options,
         range,
         difficulty,
         typus,
         enforced,
         effect,
-        cast_duration,
+        duration_of_effect,
         cost,
         schools_id,
     };

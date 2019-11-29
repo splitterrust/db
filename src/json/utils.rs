@@ -1,4 +1,4 @@
-use crate::models::spell_schools::Spell;
+use crate::models::spell_schools_pretty_ger::Spell;
 
 use crate::{
     write_schools,
@@ -46,14 +46,14 @@ pub fn write_json_spells_to_db() {
 
         let new_spell = NewSpell {
             name:               &spell.name,
-            duration_of_effect: &spell.duration_of_effect,
+            cast_duration:      &spell.cast_duration,
             options:            &spell.options,
             range:              &spell.range,
             difficulty:         &spell.difficulty,
             typus:              &spell.typus,
             enforced:           &spell.enforced,
             effect:             &spell.effect,
-            cast_duration:      &spell.cast_duration,
+            duration_of_effect: &spell.duration_of_effect,
             cost:               &spell.cost,
             schools_id:         &school.id,
         };

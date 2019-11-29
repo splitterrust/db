@@ -1,3 +1,6 @@
+/*
+This is the Schools data, which represents the data in the schools table.
+*/
 use crate::schema::schools;
 use serde::{
     Deserialize,
@@ -7,7 +10,6 @@ use serde_json::json;
 
 #[derive(Queryable, Debug, Clone, Serialize, Deserialize)]
 pub struct Schools {
-    #[serde(skip)]
     pub id: i32,
     pub fire: Option<i32>,
     pub protection: Option<i32>,
