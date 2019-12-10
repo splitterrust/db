@@ -2,7 +2,7 @@ import json
 import os
 
 FILENAME = os.path.join(os.path.abspath(os.getcwd()), 'spells.json')
-# Get spells.json from https://github.com/cvaliente/Splittermond/blob/master/Zauberbuch/zauber.json
+# Get spells.json from https://raw.githubusercontent.com/cvaliente/Splittermond/master/Zauberbuch/zauber.json
 FILENAME_OUT = os.path.join(os.path.abspath(os.getcwd()), 'spells_new.json')
 
 
