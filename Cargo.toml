@@ -3,6 +3,7 @@ name = "splitterrust_db"
 version = "0.1.0"
 authors = ["Maximilian Konter <biskit1943@gmx.de>"]
 edition = "2018"
+repository = "https://github.com/splitterrust/db"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
