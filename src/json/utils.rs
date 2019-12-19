@@ -1,8 +1,7 @@
+use crate::models::schools::write_schools;
+use crate::models::spell::write_spell;
 use crate::models::spell_schools_pretty_ger::Spell;
-
 use crate::{
-    write_schools,
-    write_spell,
     NewSchools,
     NewSpell,
 };

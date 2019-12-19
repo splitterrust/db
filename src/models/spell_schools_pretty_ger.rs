@@ -14,69 +14,69 @@ use crate::models::spell::Spell as _Spell;
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Spell {
     #[serde(rename = "Dauer")]
-    pub cast_duration: String,
+    pub cast_duration:      String,
     #[serde(rename = "Optionen")]
-    pub options: Vec<String>,
+    pub options:            Vec<String>,
     #[serde(rename = "Reichweite")]
-    pub range: String,
+    pub range:              String,
     #[serde(rename = "Schwierigkeit")]
-    pub difficulty: String,
+    pub difficulty:         String,
     #[serde(rename = "Typus")]
-    pub typus: String,
+    pub typus:              String,
     #[serde(rename = "Verstärkt")]
-    pub enforced: String,
+    pub enforced:           String,
     #[serde(rename = "Wirkung")]
-    pub effect: String,
+    pub effect:             String,
     #[serde(rename = "Wirkungsdauer")]
     pub duration_of_effect: String,
     #[serde(rename = "Zauberkosten")]
-    pub cost: String,
+    pub cost:               String,
     #[serde(rename = "Name")]
-    pub name: String,
+    pub name:               String,
     #[serde(rename = "Schulen")]
-    pub schools: Schools,
+    pub schools:            Schools,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Schools {
     #[serde(rename = "Feuermagie", skip_serializing_if = "Option::is_none")]
-    pub fire: Option<i32>,
+    pub fire:          Option<i32>,
     #[serde(rename = "Schutzmagie", skip_serializing_if = "Option::is_none")]
-    pub protection: Option<i32>,
+    pub protection:    Option<i32>,
     #[serde(rename = "Lichtmagie", skip_serializing_if = "Option::is_none")]
-    pub light: Option<i32>,
+    pub light:         Option<i32>,
     #[serde(rename = "Erkenntnismagie", skip_serializing_if = "Option::is_none")]
-    pub detection: Option<i32>,
+    pub detection:     Option<i32>,
     #[serde(rename = "Stärkungsmagie", skip_serializing_if = "Option::is_none")]
     pub strengthening: Option<i32>,
     #[serde(rename = "Verwandlungsmagie", skip_serializing_if = "Option::is_none")]
-    pub metamorphism: Option<i32>,
+    pub metamorphism:  Option<i32>,
     #[serde(rename = "Bannmagie", skip_serializing_if = "Option::is_none")]
-    pub bann: Option<i32>,
+    pub bann:          Option<i32>,
     #[serde(rename = "Illusionsmagie", skip_serializing_if = "Option::is_none")]
-    pub illusion: Option<i32>,
+    pub illusion:      Option<i32>,
     #[serde(rename = "Bewegungsmagie", skip_serializing_if = "Option::is_none")]
-    pub movement: Option<i32>,
+    pub movement:      Option<i32>,
     #[serde(rename = "Windmagie", skip_serializing_if = "Option::is_none")]
-    pub wind: Option<i32>,
+    pub wind:          Option<i32>,
     #[serde(rename = "Heilungsmagie", skip_serializing_if = "Option::is_none")]
-    pub heal: Option<i32>,
+    pub heal:          Option<i32>,
     #[serde(rename = "Todesmagie", skip_serializing_if = "Option::is_none")]
-    pub death: Option<i32>,
+    pub death:         Option<i32>,
     #[serde(rename = "Schicksalsmagie", skip_serializing_if = "Option::is_none")]
-    pub fate: Option<i32>,
+    pub fate:          Option<i32>,
     #[serde(rename = "Naturmagie", skip_serializing_if = "Option::is_none")]
-    pub nature: Option<i32>,
+    pub nature:        Option<i32>,
     #[serde(rename = "Beherrschungsmagie", skip_serializing_if = "Option::is_none")]
-    pub control: Option<i32>,
+    pub control:       Option<i32>,
     #[serde(rename = "Kampfmagie", skip_serializing_if = "Option::is_none")]
-    pub fight: Option<i32>,
+    pub fight:         Option<i32>,
     #[serde(rename = "Wassermagie", skip_serializing_if = "Option::is_none")]
-    pub water: Option<i32>,
+    pub water:         Option<i32>,
     #[serde(rename = "Schattenmagie", skip_serializing_if = "Option::is_none")]
-    pub shadow: Option<i32>,
+    pub shadow:        Option<i32>,
     #[serde(rename = "Felsmagie", skip_serializing_if = "Option::is_none")]
-    pub earth: Option<i32>,
+    pub earth:         Option<i32>,
 }
 
 impl Spell {
