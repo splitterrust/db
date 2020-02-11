@@ -1,7 +1,6 @@
 /*
 This is the Schools data, which represents the data in the schools table.
 */
-use crate::establish_connection;
 use crate::schema::schools;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -116,11 +115,9 @@ pub fn write_new_schools<'a>(
         .expect("Error saving new schools")
 }
 
-pub fn write_schools(schools: &NewSchools) -> Schools {
-    let conn = establish_connection();
-
+pub fn write_schools(schools: &NewSchools, conn: &PgConnection) -> Schools {
     diesel::insert_into(schools::table)
         .values(schools)
-        .get_result(&conn)
+        .get_result(conn)
         .expect("Error saving new schools")
 }

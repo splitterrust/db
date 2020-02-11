@@ -4,6 +4,7 @@ use crate::models::spell_schools_pretty_ger::Spell;
 use crate::{
     NewSchools,
     NewSpell,
+    PgConnection,
 };
 use serde_json::from_str;
 use std::error::Error;
@@ -17,7 +18,7 @@ fn read_spells_from_file(path: &str) -> Result<Vec<Spell>, Box<dyn Error>> {
     Ok(spells)
 }
 
-pub fn write_json_spells_to_db() {
+pub fn write_json_spells_to_db(conn: &PgConnection) {
     let spells = read_spells_from_file("./src/json/spells_new.json").unwrap();
     for spell in &spells {
         let new_school = NewSchools {
@@ -41,7 +42,7 @@ pub fn write_json_spells_to_db() {
             shadow:        spell.schools.shadow.as_ref(),
             earth:         spell.schools.earth.as_ref(),
         };
-        let school = write_schools(&new_school);
+        let school = write_schools(&new_school, conn);
 
         let new_spell = NewSpell {
             name:               &spell.name,
@@ -56,6 +57,6 @@ pub fn write_json_spells_to_db() {
             cost:               &spell.cost,
             schools_id:         &school.id,
         };
-        write_spell(&new_spell);
+        write_spell(&new_spell, conn);
     }
 }

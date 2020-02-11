@@ -19,25 +19,40 @@ use self::models::spell::{
     NewSpell,
     Spell,
 };
+use diesel::r2d2::{ Pool, PooledConnection, ConnectionManager, PoolError };
 
-pub fn establish_connection() -> PgConnection {
-    dotenv().ok();
+pub type PgPool = Pool<ConnectionManager<PgConnection>>;
+pub type PgPooledConnection = PooledConnection<ConnectionManager<PgConnection>>;
 
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+fn init_pool(database_url: &str) -> Result<PgPool, PoolError> {
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    Pool::builder().build(manager)
 }
 
-pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Schools)> {
+pub fn establish_connection() -> PgPool {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set");
+    init_pool(&database_url).expect("Failed to create pool")
+}
+
+//pub fn establish_connection() -> PgConnection {
+//    dotenv().ok();
+//
+//    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+//    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+//}
+
+pub fn get_spell_by_name(_name: &str, conn: &PgConnection) -> Option<(Spell, Schools)> {
     use self::schema::schools;
     use self::schema::spells::dsl::*;
-
-    let conn = establish_connection();
 
     let results = spells
         .filter(name.eq(_name))
         .limit(1)
         .inner_join(schools::table)
-        .load::<(Spell, Schools)>(&conn)
+        .load::<(Spell, Schools)>(conn)
         .expect("Error retrieving spell");
 
     match results.len() {
@@ -46,26 +61,23 @@ pub fn get_spell_by_name(_name: &str) -> Option<(Spell, Schools)> {
     }
 }
 
-pub fn get_spell_like_name(_name: &str) -> Vec<(Spell, Schools)> {
+pub fn get_spell_like_name(_name: &str, conn: &PgConnection) -> Vec<(Spell, Schools)> {
     use self::schema::schools;
     use self::schema::spells::dsl::*;
-
-    let conn = establish_connection();
 
     let query = format!("{}", _name);
     spells
         .filter(name.ilike(query))
         .inner_join(schools::table)
-        .load::<(Spell, Schools)>(&conn)
+        .load::<(Spell, Schools)>(conn)
         .expect("Error finding spell like")
 }
 
-pub fn read_spells() {
+pub fn read_spells(conn: &PgConnection) {
     use self::schema::spells::dsl::*;
-    let conn = establish_connection();
     let results = spells
         .limit(5)
-        .load::<Spell>(&conn)
+        .load::<Spell>(conn)
         .expect("Error loading spells");
 
     println!("Displaying {} spells", results.len());
