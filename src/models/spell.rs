@@ -2,7 +2,6 @@
 This is the Spell data, which represents the data in the spell table. No joins
 were made here.
 */
-use crate::establish_connection;
 use crate::schema::spells;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -85,11 +84,9 @@ pub fn write_new_spell<'a>(
         .expect("Error saving new spell")
 }
 
-pub fn write_spell(spell: &NewSpell) -> Spell {
-    let conn = establish_connection();
-
+pub fn write_spell(spell: &NewSpell, conn: &PgConnection) -> Spell {
     diesel::insert_into(spells::table)
         .values(spell)
-        .get_result(&conn)
+        .get_result(conn)
         .expect("Error saving new spell")
 }

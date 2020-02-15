@@ -8,10 +8,13 @@ use self::splitterrust_db::*;
 fn main() {
     use splitterrust_db::schema::spells::dsl::*;
 
-    let connection = establish_connection();
+    let conn = establish_connection()
+    .get()
+    .map_err(|_e| {});
+
     let results = spells
         .limit(5)
-        .load::<Spell>(&connection)
+        .load::<Spell>(&conn.unwrap())
         .expect("Error loading spells");
 
     println!("Displaying {} spells", results.len());
