@@ -19,7 +19,12 @@ use self::models::spell::{
     NewSpell,
     Spell,
 };
-use diesel::r2d2::{ Pool, PooledConnection, ConnectionManager, PoolError };
+use diesel::r2d2::{
+    ConnectionManager,
+    Pool,
+    PoolError,
+    PooledConnection,
+};
 
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 pub type PgPooledConnection = PooledConnection<ConnectionManager<PgConnection>>;
@@ -32,16 +37,16 @@ fn init_pool(database_url: &str) -> Result<PgPool, PoolError> {
 pub fn establish_connection() -> PgPool {
     dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     init_pool(&database_url).expect("Failed to create pool")
 }
 
 //pub fn establish_connection() -> PgConnection {
 //    dotenv().ok();
 //
-//    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-//    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+//    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be
+// set");    PgConnection::establish(&database_url).expect(&format!("Error
+// connecting to {}", database_url))
 //}
 
 pub fn get_spell_by_name(_name: &str, conn: &PgConnection) -> Option<(Spell, Schools)> {
@@ -65,7 +70,7 @@ pub fn get_spell_like_name(_name: &str, conn: &PgConnection) -> Vec<(Spell, Scho
     use self::schema::schools;
     use self::schema::spells::dsl::*;
 
-    let query = format!("{}", _name);
+    let query = _name.to_string();
     spells
         .filter(name.ilike(query))
         .inner_join(schools::table)

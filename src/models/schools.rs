@@ -1,6 +1,7 @@
 /*
 This is the Schools data, which represents the data in the schools table.
 */
+use std::fmt;
 use crate::schema::schools;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -34,10 +35,11 @@ pub struct Schools {
     pub earth:         Option<i32>,
 }
 
-impl Schools {
-    pub fn to_string(self) -> String {
+impl fmt::Display for Schools {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let obj = json!(self);
-        serde_json::to_string_pretty(&obj).unwrap()
+        write!(f, "{}", serde_json::to_string_pretty(&obj).unwrap())
     }
 }
 
@@ -65,50 +67,10 @@ pub struct NewSchools<'a> {
     pub earth:         Option<&'a i32>,
 }
 
-pub fn write_new_schools<'a>(
+pub fn write_new_schools(
     conn: &PgConnection,
-    fire: Option<&'a i32>,
-    protection: Option<&'a i32>,
-    light: Option<&'a i32>,
-    detection: Option<&'a i32>,
-    strengthening: Option<&'a i32>,
-    metamorphism: Option<&'a i32>,
-    bann: Option<&'a i32>,
-    illusion: Option<&'a i32>,
-    movement: Option<&'a i32>,
-    wind: Option<&'a i32>,
-    heal: Option<&'a i32>,
-    death: Option<&'a i32>,
-    fate: Option<&'a i32>,
-    nature: Option<&'a i32>,
-    control: Option<&'a i32>,
-    fight: Option<&'a i32>,
-    water: Option<&'a i32>,
-    shadow: Option<&'a i32>,
-    earth: Option<&'a i32>,
+    new_schools: NewSchools
 ) -> Schools {
-    let new_schools = NewSchools {
-        fire,
-        protection,
-        light,
-        detection,
-        strengthening,
-        metamorphism,
-        bann,
-        illusion,
-        movement,
-        wind,
-        heal,
-        death,
-        fate,
-        nature,
-        control,
-        fight,
-        water,
-        shadow,
-        earth,
-    };
-
     diesel::insert_into(schools::table)
         .values(&new_schools)
         .get_result(conn)

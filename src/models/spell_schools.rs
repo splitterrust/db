@@ -82,16 +82,16 @@ impl Spell {
             effect:             data.0.effect,
             cast_duration:      data.0.cast_duration,
             cost:               data.0.cost,
-            schools:            schools,
+            schools,
         }
     }
 
-    pub fn to_json_pretty(self) -> String {
+    pub fn to_json_pretty(&self) -> String {
         use serde_json::json;
         serde_json::to_string_pretty(&json!(self)).unwrap()
     }
 
-    pub fn to_json(self) -> String {
+    pub fn to_json(&self) -> String {
         use serde_json::json;
         json!(self).to_string()
     }

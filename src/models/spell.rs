@@ -2,6 +2,7 @@
 This is the Spell data, which represents the data in the spell table. No joins
 were made here.
 */
+use std::fmt;
 use crate::schema::spells;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -27,10 +28,11 @@ pub struct Spell {
     pub schools_id:         i32,
 }
 
-impl Spell {
-    pub fn to_string(self) -> String {
+impl fmt::Display for Spell {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let obj = json!(self);
-        serde_json::to_string_pretty(&obj).unwrap()
+        write!(f, "{}", serde_json::to_string_pretty(&obj).unwrap())
     }
 }
 
@@ -50,33 +52,10 @@ pub struct NewSpell<'a> {
     pub schools_id:         &'a i32,
 }
 
-pub fn write_new_spell<'a>(
+pub fn write_new_spell(
     conn: &PgConnection,
-    name: &'a str,
-    cast_duration: &'a str,
-    options: &'a Vec<String>,
-    range: &'a str,
-    difficulty: &'a str,
-    typus: &'a str,
-    enforced: &'a str,
-    effect: &'a str,
-    duration_of_effect: &'a str,
-    cost: &'a str,
-    schools_id: &'a i32,
+    new_spell: NewSpell
 ) -> Spell {
-    let new_spell = NewSpell {
-        name,
-        cast_duration,
-        options,
-        range,
-        difficulty,
-        typus,
-        enforced,
-        effect,
-        duration_of_effect,
-        cost,
-        schools_id,
-    };
 
     diesel::insert_into(spells::table)
         .values(&new_spell)
