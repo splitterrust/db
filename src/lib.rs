@@ -41,14 +41,6 @@ pub fn establish_connection() -> PgPool {
     init_pool(&database_url).expect("Failed to create pool")
 }
 
-//pub fn establish_connection() -> PgConnection {
-//    dotenv().ok();
-//
-//    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be
-// set");    PgConnection::establish(&database_url).expect(&format!("Error
-// connecting to {}", database_url))
-//}
-
 pub fn get_spell_by_name(_name: &str, conn: &PgConnection) -> Option<(Spell, Schools)> {
     use self::schema::schools;
     use self::schema::spells::dsl::*;

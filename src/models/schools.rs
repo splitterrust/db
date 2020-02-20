@@ -67,19 +67,72 @@ pub struct NewSchools<'a> {
     pub earth:         Option<&'a i32>,
 }
 
-pub fn write_new_schools(
-    conn: &PgConnection,
-    new_schools: NewSchools
-) -> Schools {
-    diesel::insert_into(schools::table)
-        .values(&new_schools)
-        .get_result(conn)
-        .expect("Error saving new schools")
-}
-
 pub fn write_schools(schools: &NewSchools, conn: &PgConnection) -> Schools {
     diesel::insert_into(schools::table)
         .values(schools)
         .get_result(conn)
         .expect("Error saving new schools")
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_schools_to_string_1() {
+        let school = Schools {
+            id:            1,
+            fire:          Some(1),
+            protection:    Some(1),
+            light:         Some(1),
+            detection:     Some(1),
+            strengthening: Some(1),
+            metamorphism:  Some(1),
+            bann:          Some(1),
+            illusion:      Some(1),
+            movement:      Some(1),
+            wind:          Some(1),
+            heal:          Some(1),
+            death:         Some(1),
+            fate:          Some(1),
+            nature:        Some(1),
+            control:       Some(1),
+            fight:         Some(1),
+            water:         Some(1),
+            shadow:        Some(1),
+            earth:         Some(1),
+        };
+        let obj = json!(school);
+        let s_string = serde_json::to_string_pretty(&obj).unwrap();
+        assert_eq!(s_string, school.to_string());
+    }
+
+    #[test]
+    fn test_schools_to_string_2() {
+        let school = Schools {
+            id:            1,
+            fire:          Some(1),
+            protection:    Some(1),
+            light:         Some(1),
+            detection:     Some(1),
+            strengthening: Some(1),
+            metamorphism:  Some(1),
+            bann:          Some(1),
+            illusion:      Some(1),
+            movement:      Some(1),
+            wind:          Some(1),
+            heal:          Some(1),
+            death:         Some(1),
+            fate:          Some(1),
+            nature:        Some(1),
+            control:       Some(1),
+            fight:         Some(1),
+            water:         Some(1),
+            shadow:        Some(1),
+            earth:         Some(1),
+        };
+        let s = String::from("{\n  \"bann\": 1,\n  \"control\": 1,\n  \"death\": 1,\n  \"detection\": 1,\n  \"earth\": 1,\n  \"fate\": 1,\n  \"fight\": 1,\n  \"fire\": 1,\n  \"heal\": 1,\n  \"id\": 1,\n  \"illusion\": 1,\n  \"light\": 1,\n  \"metamorphism\": 1,\n  \"movement\": 1,\n  \"nature\": 1,\n  \"protection\": 1,\n  \"shadow\": 1,\n  \"strengthening\": 1,\n  \"water\": 1,\n  \"wind\": 1\n}");
+        assert_eq!(s, school.to_string());
+    }
+}
+

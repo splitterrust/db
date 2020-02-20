@@ -52,17 +52,6 @@ pub struct NewSpell<'a> {
     pub schools_id:         &'a i32,
 }
 
-pub fn write_new_spell(
-    conn: &PgConnection,
-    new_spell: NewSpell
-) -> Spell {
-
-    diesel::insert_into(spells::table)
-        .values(&new_spell)
-        .get_result(conn)
-        .expect("Error saving new spell")
-}
-
 pub fn write_spell(spell: &NewSpell, conn: &PgConnection) -> Spell {
     diesel::insert_into(spells::table)
         .values(spell)
