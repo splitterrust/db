@@ -1,7 +1,6 @@
 /*
 This is the Schools data, which represents the data in the schools table.
 */
-use std::fmt;
 use crate::schema::schools;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -10,6 +9,7 @@ use serde::{
     Serialize,
 };
 use serde_json::json;
+use std::fmt;
 
 #[derive(Queryable, Debug, Clone, Serialize, Deserialize)]
 pub struct Schools {
@@ -131,8 +131,13 @@ mod test {
             shadow:        Some(1),
             earth:         Some(1),
         };
-        let s = String::from("{\n  \"bann\": 1,\n  \"control\": 1,\n  \"death\": 1,\n  \"detection\": 1,\n  \"earth\": 1,\n  \"fate\": 1,\n  \"fight\": 1,\n  \"fire\": 1,\n  \"heal\": 1,\n  \"id\": 1,\n  \"illusion\": 1,\n  \"light\": 1,\n  \"metamorphism\": 1,\n  \"movement\": 1,\n  \"nature\": 1,\n  \"protection\": 1,\n  \"shadow\": 1,\n  \"strengthening\": 1,\n  \"water\": 1,\n  \"wind\": 1\n}");
+        let s = String::from(
+            "{\n  \"bann\": 1,\n  \"control\": 1,\n  \"death\": 1,\n  \"detection\": 1,\n  \
+             \"earth\": 1,\n  \"fate\": 1,\n  \"fight\": 1,\n  \"fire\": 1,\n  \"heal\": 1,\n  \
+             \"id\": 1,\n  \"illusion\": 1,\n  \"light\": 1,\n  \"metamorphism\": 1,\n  \
+             \"movement\": 1,\n  \"nature\": 1,\n  \"protection\": 1,\n  \"shadow\": 1,\n  \
+             \"strengthening\": 1,\n  \"water\": 1,\n  \"wind\": 1\n}",
+        );
         assert_eq!(s, school.to_string());
     }
 }
-

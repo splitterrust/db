@@ -2,13 +2,13 @@ extern crate diesel;
 extern crate splitterrust_db;
 
 use self::diesel::prelude::*;
-use self::models::spell::Spell;
 use self::models::schools::Schools;
+use self::models::spell::Spell;
 use self::splitterrust_db::*;
 
 fn main() {
-    use splitterrust_db::schema::spells::dsl::*;
     use splitterrust_db::schema::schools::dsl::*;
+    use splitterrust_db::schema::spells::dsl::*;
 
     let conn = establish_connection().get().map_err(|_e| {});
 

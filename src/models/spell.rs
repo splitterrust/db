@@ -2,7 +2,6 @@
 This is the Spell data, which represents the data in the spell table. No joins
 were made here.
 */
-use std::fmt;
 use crate::schema::spells;
 use diesel::pg::PgConnection;
 use diesel::RunQueryDsl;
@@ -11,6 +10,7 @@ use serde::{
     Serialize,
 };
 use serde_json::json;
+use std::fmt;
 
 #[derive(Queryable, Debug, Clone, Serialize, Deserialize)]
 pub struct Spell {
