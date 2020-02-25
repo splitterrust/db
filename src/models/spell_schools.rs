@@ -72,26 +72,26 @@ impl Spell {
         };
 
         Spell {
-            name:               data.0.name,
+            name: data.0.name,
             duration_of_effect: data.0.duration_of_effect,
-            options:            data.0.options,
-            range:              data.0.range,
-            difficulty:         data.0.difficulty,
-            typus:              data.0.typus,
-            enforced:           data.0.enforced,
-            effect:             data.0.effect,
-            cast_duration:      data.0.cast_duration,
-            cost:               data.0.cost,
-            schools:            schools,
+            options: data.0.options,
+            range: data.0.range,
+            difficulty: data.0.difficulty,
+            typus: data.0.typus,
+            enforced: data.0.enforced,
+            effect: data.0.effect,
+            cast_duration: data.0.cast_duration,
+            cost: data.0.cost,
+            schools,
         }
     }
 
-    pub fn to_json_pretty(self) -> String {
+    pub fn to_json_pretty(&self) -> String {
         use serde_json::json;
         serde_json::to_string_pretty(&json!(self)).unwrap()
     }
 
-    pub fn to_json(self) -> String {
+    pub fn to_json(&self) -> String {
         use serde_json::json;
         json!(self).to_string()
     }

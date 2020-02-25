@@ -10,6 +10,7 @@ use serde::{
     Serialize,
 };
 use serde_json::json;
+use std::fmt;
 
 #[derive(Queryable, Debug, Clone, Serialize, Deserialize)]
 pub struct Spell {
@@ -27,10 +28,11 @@ pub struct Spell {
     pub schools_id:         i32,
 }
 
-impl Spell {
-    pub fn to_string(self) -> String {
+impl fmt::Display for Spell {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let obj = json!(self);
-        serde_json::to_string_pretty(&obj).unwrap()
+        write!(f, "{}", serde_json::to_string_pretty(&obj).unwrap())
     }
 }
 
@@ -48,40 +50,6 @@ pub struct NewSpell<'a> {
     pub duration_of_effect: &'a str,
     pub cost:               &'a str,
     pub schools_id:         &'a i32,
-}
-
-pub fn write_new_spell<'a>(
-    conn: &PgConnection,
-    name: &'a str,
-    cast_duration: &'a str,
-    options: &'a Vec<String>,
-    range: &'a str,
-    difficulty: &'a str,
-    typus: &'a str,
-    enforced: &'a str,
-    effect: &'a str,
-    duration_of_effect: &'a str,
-    cost: &'a str,
-    schools_id: &'a i32,
-) -> Spell {
-    let new_spell = NewSpell {
-        name,
-        cast_duration,
-        options,
-        range,
-        difficulty,
-        typus,
-        enforced,
-        effect,
-        duration_of_effect,
-        cost,
-        schools_id,
-    };
-
-    diesel::insert_into(spells::table)
-        .values(&new_spell)
-        .get_result(conn)
-        .expect("Error saving new spell")
 }
 
 pub fn write_spell(spell: &NewSpell, conn: &PgConnection) -> Spell {

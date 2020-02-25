@@ -9,6 +9,7 @@ use serde::{
     Serialize,
 };
 use serde_json::json;
+use std::fmt;
 
 #[derive(Queryable, Debug, Clone, Serialize, Deserialize)]
 pub struct Schools {
@@ -34,10 +35,11 @@ pub struct Schools {
     pub earth:         Option<i32>,
 }
 
-impl Schools {
-    pub fn to_string(self) -> String {
+impl fmt::Display for Schools {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let obj = json!(self);
-        serde_json::to_string_pretty(&obj).unwrap()
+        write!(f, "{}", serde_json::to_string_pretty(&obj).unwrap())
     }
 }
 
@@ -65,59 +67,77 @@ pub struct NewSchools<'a> {
     pub earth:         Option<&'a i32>,
 }
 
-pub fn write_new_schools<'a>(
-    conn: &PgConnection,
-    fire: Option<&'a i32>,
-    protection: Option<&'a i32>,
-    light: Option<&'a i32>,
-    detection: Option<&'a i32>,
-    strengthening: Option<&'a i32>,
-    metamorphism: Option<&'a i32>,
-    bann: Option<&'a i32>,
-    illusion: Option<&'a i32>,
-    movement: Option<&'a i32>,
-    wind: Option<&'a i32>,
-    heal: Option<&'a i32>,
-    death: Option<&'a i32>,
-    fate: Option<&'a i32>,
-    nature: Option<&'a i32>,
-    control: Option<&'a i32>,
-    fight: Option<&'a i32>,
-    water: Option<&'a i32>,
-    shadow: Option<&'a i32>,
-    earth: Option<&'a i32>,
-) -> Schools {
-    let new_schools = NewSchools {
-        fire,
-        protection,
-        light,
-        detection,
-        strengthening,
-        metamorphism,
-        bann,
-        illusion,
-        movement,
-        wind,
-        heal,
-        death,
-        fate,
-        nature,
-        control,
-        fight,
-        water,
-        shadow,
-        earth,
-    };
-
-    diesel::insert_into(schools::table)
-        .values(&new_schools)
-        .get_result(conn)
-        .expect("Error saving new schools")
-}
-
 pub fn write_schools(schools: &NewSchools, conn: &PgConnection) -> Schools {
     diesel::insert_into(schools::table)
         .values(schools)
         .get_result(conn)
         .expect("Error saving new schools")
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_schools_to_string_1() {
+        let school = Schools {
+            id:            1,
+            fire:          Some(1),
+            protection:    Some(1),
+            light:         Some(1),
+            detection:     Some(1),
+            strengthening: Some(1),
+            metamorphism:  Some(1),
+            bann:          Some(1),
+            illusion:      Some(1),
+            movement:      Some(1),
+            wind:          Some(1),
+            heal:          Some(1),
+            death:         Some(1),
+            fate:          Some(1),
+            nature:        Some(1),
+            control:       Some(1),
+            fight:         Some(1),
+            water:         Some(1),
+            shadow:        Some(1),
+            earth:         Some(1),
+        };
+        let obj = json!(school);
+        let s_string = serde_json::to_string_pretty(&obj).unwrap();
+        assert_eq!(s_string, school.to_string());
+    }
+
+    #[test]
+    fn test_schools_to_string_2() {
+        let school = Schools {
+            id:            1,
+            fire:          Some(1),
+            protection:    Some(1),
+            light:         Some(1),
+            detection:     Some(1),
+            strengthening: Some(1),
+            metamorphism:  Some(1),
+            bann:          Some(1),
+            illusion:      Some(1),
+            movement:      Some(1),
+            wind:          Some(1),
+            heal:          Some(1),
+            death:         Some(1),
+            fate:          Some(1),
+            nature:        Some(1),
+            control:       Some(1),
+            fight:         Some(1),
+            water:         Some(1),
+            shadow:        Some(1),
+            earth:         Some(1),
+        };
+        let s = String::from(
+            "{\n  \"bann\": 1,\n  \"control\": 1,\n  \"death\": 1,\n  \"detection\": 1,\n  \
+             \"earth\": 1,\n  \"fate\": 1,\n  \"fight\": 1,\n  \"fire\": 1,\n  \"heal\": 1,\n  \
+             \"id\": 1,\n  \"illusion\": 1,\n  \"light\": 1,\n  \"metamorphism\": 1,\n  \
+             \"movement\": 1,\n  \"nature\": 1,\n  \"protection\": 1,\n  \"shadow\": 1,\n  \
+             \"strengthening\": 1,\n  \"water\": 1,\n  \"wind\": 1\n}",
+        );
+        assert_eq!(s, school.to_string());
+    }
 }
